@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RiftDraft</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Lobby -->
+        <div id="lobby" class="screen">
+            <h1>RiftDraft</h1>
+            <div class="connection-options">
+                <div class="draft-options">
+                    <h3 class="collapsible-header">Draft Options <span class="toggle-icon">▼</span></h3>
+                    <div class="collapsible-content">
+                        <div class="option-group">
+                            <label for="cardList">Paste Card List:</label>
+                            <textarea id="cardList" placeholder="Paste card names, one per line"></textarea>
+                        </div>
+                        <div class="option-group">
+                            <label for="numPacks">Number of Packs:</label>
+                            <input type="number" id="numPacks" value="3" min="1" max="10">
+                        </div>
+                        <div class="option-group">
+                            <label>Pack Composition:</label>
+                            <div class="pack-composition">
+                                <div>
+                                    <label for="numCommons">Commons:</label>
+                                    <input type="number" id="numCommons" value="10" min="0" max="20">
+                                </div>
+                                <div>
+                                    <label for="numUncommons">Uncommons:</label>
+                                    <input type="number" id="numUncommons" value="3" min="0" max="10">
+                                </div>
+                                <div>
+                                    <label for="numRares">Rares:</label>
+                                    <input type="number" id="numRares" value="1" min="0" max="5">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button id="createRoom">Create Room</button>
+                <div class="join-section">
+                    <input type="text" id="roomId" placeholder="Room ID">
+                    <button id="joinRoom">Join</button>
+                </div>
+            </div>
+            <div id="roomInfo" style="display:none;">
+                <p>Room Id: <strong id="displayRoomId"></strong></p>
+                <p>Connected Players: <span id="playerCount">1</span>/4</p>
+                <ul id="playerList"></ul>
+                <button id="startDraft" style="display:none;">Start Draft</button>
+            </div>
+            <div id="status"></div>
+        </div>
+
+        <!-- Draft -->
+        <div id="draftScreen" class="screen" style="display:none;">
+            <div class="draft-header">
+                <h2>Draft - Pick <span id="pickNumber">1</span></h2>
+                <p>Pack <span id="packNumber">1</span>/3</p>
+            </div>
+            
+            <div id="currentPack" class="card-grid"></div>
+            
+            <div class="picked-cards">
+                <h3>Your picks (<span id="pickedCount">0</span>)</h3>
+                <div id="pickedCards" class="card-grid-small"></div>
+            </div>
+        </div>
+
+        <!-- Result -->
+        <div id="resultsScreen" class="screen" style="display:none;">
+            <h1>Draft Completed</h1>
+            <div id="finalPool" class="card-grid-small"></div>
+            <button id="exportDeck">Export Deck</button>
+            <button id="newDraft">New Draft</button>
+        </div>
+    </div>
+
+    <img class="card-image-preview" id="card-image-preview" alt="Card Preview">
+
+    <script src="https://unpkg.com/peerjs@1.5.5/dist/peerjs.min.js"></script>
+    <script src="res/cards.js"></script>
+    <script src="res/cards-meta.js"></script>
+    <script src="src/draft-manager.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
