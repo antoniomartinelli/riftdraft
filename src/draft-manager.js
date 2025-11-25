@@ -6,6 +6,17 @@ class DraftManager {
         this.players = [peerId];
         this.connections = new Map();
         
+        this.packComposition = {
+            random: parseInt(document.getElementById('numRandom').value, 10),
+            commons: parseInt(document.getElementById('numCommons').value, 10),
+            uncommons: parseInt(document.getElementById('numUncommons').value, 10),
+            rares: parseInt(document.getElementById('numRares').value, 10),
+            epics: parseInt(document.getElementById('numEpics').value, 10),
+            legends: parseInt(document.getElementById('numLegends').value, 10)
+        }
+
+        this.cardsPerPack = Object.values(this.packComposition).reduce((a, b) => a + b, 0);
+
         this.draftState = {
             started: false,
             currentPick: 0,
@@ -47,9 +58,9 @@ class DraftManager {
         // Genera 3 pacchetti per ogni giocatore
         this.players.forEach((playerId, index) => {
             this.draftState.packs[playerId] = [
-                generateBoosterPack(seed + index * 100),
-                generateBoosterPack(seed + index * 100 + 1),
-                generateBoosterPack(seed + index * 100 + 2)
+                generateBoosterPack(seed + index * 100, this.packComposition),
+                generateBoosterPack(seed + index * 100 + 1, this.packComposition),
+                generateBoosterPack(seed + index * 100 + 2, this.packComposition)
             ];
             this.draftState.picks[playerId] = [];
         });
@@ -63,8 +74,8 @@ class DraftManager {
     // Ottieni il pacchetto corrente per un giocatore
     getCurrentPack(playerId) {
         const packIndex = this.draftState.currentPack;
-        const pickNumber = this.draftState.currentPick % 15;
-        const rotations = Math.floor(this.draftState.currentPick / 15) * 
+        const pickNumber = this.draftState.currentPick % this.cardsPerPack;
+        const rotations = Math.floor(this.draftState.currentPick / this.cardsPerPack) * 
                          this.draftState.packRotation.length + 
                          this.getCurrentRotation();
         
@@ -105,7 +116,7 @@ class DraftManager {
         this.draftState.currentPick++;
         
         // Controlla se il pacchetto corrente è finito
-        if (this.draftState.currentPick % 15 === 0) {
+        if (this.draftState.currentPick % this.cardsPerPack === 0) {
             this.draftState.currentPack++;
             
             // Draft completato

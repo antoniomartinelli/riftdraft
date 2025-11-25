@@ -246,7 +246,7 @@ function renderCurrentPack() {
     });
     
     // Aggiorna contatori
-    document.getElementById('pickNumber').textContent = (draftManager.draftState.currentPick + 1) % 15;
+    document.getElementById('pickNumber').textContent = (draftManager.draftState.currentPick + 1) % draftManager.cardsPerPack;
     document.getElementById('packNumber').textContent = draftManager.draftState.currentPack + 1;
     document.getElementById('pickedCount').textContent = draftManager.draftState.picks[myPeerId]?.length || 0;
 }

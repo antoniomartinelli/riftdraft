@@ -308,3 +308,118 @@ input::placeholder {
 .collapsible-content.collapsed {
     max-height: 0;
 }
+
+.draft-options {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+    padding: 4px;
+    margin-top: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.collapsible-header {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 12px 15px;
+    border-radius: 8px;
+    margin: 0;
+    font-size: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    /* transition: background 0.2s ease; */
+}
+
+.collapsible-header:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.collapsible-content {
+    padding: 0 10px;
+}
+
+.collapsible-content:not(.collapsed) {
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+.option-group {
+    margin-bottom: 20px;
+}
+
+.option-group h3 {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 5px;
+}
+
+.option-group label {
+    display: block;
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 6px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.option-group input[type="number"],
+.option-group textarea {
+    width: 100%;
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    padding: 10px;
+    color: #fff;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+}
+
+.option-group textarea {
+    min-height: 120px;
+    line-height: 1.4;
+    resize: vertical;
+}
+
+.option-group input[type="number"]:focus,
+.option-group textarea:focus {
+    outline: none;
+    background: rgba(0, 0, 0, 0.4);
+    border-color: #4facfe;
+    box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.2);
+}
+
+/* Pack Composition Grid */
+.pack-composition {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 10px;
+}
+
+.pack-composition > div {
+    background: rgba(255, 255, 255, 0.03);
+    padding: 8px;
+    border-radius: 6px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.pack-composition label {
+    font-size: 0.7rem;
+    margin-bottom: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.pack-composition input[type="number"] {
+    text-align: center;
+    font-weight: bold;
+}
