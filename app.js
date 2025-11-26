@@ -1,4 +1,5 @@
 let peer = null;
+/** @type {DraftManager} */
 let draftManager = null;
 let myPeerId = null;
 let isHost = false;

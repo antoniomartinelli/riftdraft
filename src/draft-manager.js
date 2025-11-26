@@ -1,5 +1,5 @@
 class DraftManager {
-    maxPlayers = 1;
+    maxPlayers = 4;
     constructor(peerId, isHost) {
         this.peerId = peerId;
         this.isHost = isHost;
@@ -74,7 +74,6 @@ class DraftManager {
     // Ottieni il pacchetto corrente per un giocatore
     getCurrentPack(playerId) {
         const packIndex = this.draftState.currentPack;
-        const pickNumber = this.draftState.currentPick % this.cardsPerPack;
         const rotations = Math.floor(this.draftState.currentPick / this.cardsPerPack) * 
                          this.draftState.packRotation.length + 
                          this.getCurrentRotation();
@@ -85,7 +84,7 @@ class DraftManager {
         const sourcePlayer = this.players[sourceIndex < 0 ? sourceIndex + this.players.length : sourceIndex];
         
         const pack = this.draftState.packs[sourcePlayer][packIndex];
-        return pack ? pack.slice(pickNumber) : [];
+        return pack || [];
     }
 
     getCurrentRotation() {
@@ -95,18 +94,23 @@ class DraftManager {
     // Player picks
     pickCard(playerId, cardId) {
         const pack = this.getCurrentPack(playerId);
-        const card = pack.find(c => c.id === cardId);
+        const cardIndex = pack.findIndex(c => c.id === cardId);
         
-        if (!card) {
+        if (cardIndex === -1) {
             console.error('Card not found in current pack');
             return false;
         }
+
+        const card = pack[cardIndex];
 
         // Aggiungi la carta alle pick del giocatore
         if (!this.draftState.picks[playerId]) {
             this.draftState.picks[playerId] = [];
         }
         this.draftState.picks[playerId].push(card);
+
+        // Rimuovi la carta dal pacchetto
+        pack.splice(cardIndex, 1);
 
         return true;
     }
