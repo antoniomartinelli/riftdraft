@@ -74,21 +74,38 @@ class DraftManager {
     // Ottieni il pacchetto corrente per un giocatore
     getCurrentPack(playerId) {
         const packIndex = this.draftState.currentPack;
-        const rotations = Math.floor(this.draftState.currentPick / this.cardsPerPack) * 
-                         this.draftState.packRotation.length + 
-                         this.getCurrentRotation();
         
-        // Calcola da quale giocatore proviene il pacchetto
+        // Calculate rotation based on picks within the current pack
+        const picksInCurrentPack = this.draftState.currentPick % this.cardsPerPack;
+        
+        // Determine rotation direction
+        // Pack 1 (index 0): Left (positive rotation)
+        // Pack 2 (index 1): Right (negative rotation)
+        // Pack 3 (index 2): Left (positive rotation)
+        let rotation = picksInCurrentPack;
+        if (packIndex % 2 === 1) {
+            rotation = -picksInCurrentPack;
+        }
+        
+        // Calculate source player index
         const playerIndex = this.players.indexOf(playerId);
-        const sourceIndex = (playerIndex - rotations) % this.players.length;
-        const sourcePlayer = this.players[sourceIndex < 0 ? sourceIndex + this.players.length : sourceIndex];
+        let sourceIndex = (playerIndex - rotation) % this.players.length;
+        
+        // Handle negative modulo
+        if (sourceIndex < 0) {
+            sourceIndex += this.players.length;
+        }
+        
+        const sourcePlayer = this.players[sourceIndex];
+        
+        if (!this.draftState.packs[sourcePlayer]) return [];
         
         const pack = this.draftState.packs[sourcePlayer][packIndex];
         return pack || [];
     }
 
     getCurrentRotation() {
-        return Math.floor(this.draftState.currentPick / this.players.length) % this.players.length;
+        return this.draftState.currentPick % this.players.length;
     }
 
     // Player picks
